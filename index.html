@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no" />
+    <title>Skyrim Map</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <link rel="stylesheet" href="./map.css" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script src="./map.js"></script>
+    <style>
+        #map {position: absolute; top: 0; right: 0; bottom: 0; left: 0;}
+    </style>
+</head>
+<body>
+<div id="map">
+    <button id="showJsonInputButton" onclick="showImportPopup()">
+        Import Markers
+    </button>
+    <div id="jsonInputDialog">
+        <p>Paste text in JSON format</p>
+        <textarea id="jsonInputText" rows="4" cols="40"></textarea>
+        </br>
+        <input type="button" onClick="parseJSON();closeImportPopup();" value="Import">
+        <input type="button" onclick="closeImportPopup();" value="Close">
+    </div>
+</div>
+<script>
+    const map = L.map('map', {
+        crs: L.CRS.Simple,
+        attributionControl: false
+    }).setView([-100, 100], 3);
+
+    L.control.attribution({
+        'prefix': false
+    }).addTo(map);
+
+    L.tileLayer('https://maps.uesp.net/srmap/skyrim/leaflet/day/zoom{z}/skyrim-{x}-{y}.jpg', {
+        noWrap: true,
+        maxZoom: 8,
+        attribution: '<a href="https://en.uesp.net/wiki/Skyrim:Maps">Map Tiles by UESP</a>'
+    }).addTo(map);
+
+    map.on('click', clickEvent);
+</script>
+</body>
+</html>
